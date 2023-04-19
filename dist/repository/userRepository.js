@@ -39,24 +39,94 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveUser = void 0;
+exports.r_changeUserStatusToDeleted = exports.r_updateUserLevel = exports.r_findUserByUsername = exports.r_findAllUsers = exports.r_saveUser = void 0;
+var User_1 = require("../entity/User");
 var ormconfig_1 = __importDefault(require("../ormconfig"));
 var dbManager = ormconfig_1.default.manager;
-var saveUser = function (user) { return __awaiter(void 0, void 0, void 0, function () {
+var r_saveUser = function (user) { return __awaiter(void 0, void 0, void 0, function () {
+    var createdUser;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, dbManager.save(user)];
             case 1:
-                _a.sent();
+                createdUser = _a.sent();
+                return [2 /*return*/, createdUser];
+        }
+    });
+}); };
+exports.r_saveUser = r_saveUser;
+// find all users
+var r_findAllUsers = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var users;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, dbManager.find(User_1.User)];
+            case 1:
+                users = _a.sent();
+                return [2 /*return*/, users];
+        }
+    });
+}); };
+exports.r_findAllUsers = r_findAllUsers;
+// find user by username
+var r_findUserByUsername = function (username) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, dbManager.findOneBy(User_1.User, { username: username })];
+            case 1:
+                user = _a.sent();
                 return [2 /*return*/, user];
         }
     });
 }); };
-exports.saveUser = saveUser;
-// export default interface UserRepository{
-//     saveUser(user:User):User;
-//     findAllUsers():User[];
-//     findUserByUsername(username:string):User;
-//     updateUserScore(score:number):User;
-//     deleteUser(user:User):User;
-// }
+exports.r_findUserByUsername = r_findUserByUsername;
+// update user score
+var r_updateUserLevel = function (user, level) { return __awaiter(void 0, void 0, void 0, function () {
+    var updatedUser;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, dbManager.update(User_1.User, { username: user.username }, { level: level })];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, dbManager.findOneBy(User_1.User, { username: user.username })];
+            case 2:
+                updatedUser = _a.sent();
+                if ((updatedUser === null || updatedUser === void 0 ? void 0 : updatedUser.level) === level) {
+                    return [2 /*return*/, true];
+                }
+                else {
+                    return [2 /*return*/, false];
+                }
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.r_updateUserLevel = r_updateUserLevel;
+// delete user (change status to deleted)
+var r_changeUserStatusToDeleted = function (user) { return __awaiter(void 0, void 0, void 0, function () {
+    var deletedUser;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, dbManager.update(User_1.User, { username: user.username }, { status: "Deleted" })];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, dbManager.findOne(User_1.User, {
+                        where: {
+                            username: user.username,
+                            status: "Deleted"
+                        }
+                    })];
+            case 2:
+                deletedUser = _a.sent();
+                if (deletedUser) {
+                    return [2 /*return*/, true];
+                }
+                else {
+                    return [2 /*return*/, false];
+                }
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.r_changeUserStatusToDeleted = r_changeUserStatusToDeleted;

@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import { createUser, deleteUser, findAllUsers, findUserByUsername, updateUserScore } from '../controller/userController';
+import { createUser, deleteUser, findAllUsers, findUserByUsername, updateUserLevel } from '../controller/userController';
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.get("/api", (req:Request, res:Response) => {
 router.post("/api/signup", createUser);
 router.get("/api/user/all", findAllUsers);
 router.get("/api/user/:username", findUserByUsername);
-router.put("/api/user/updateScore/:score", updateUserScore);
-router.delete("/api/user/delete/:username", deleteUser);
+router.put("/api/user/updateLevel", updateUserLevel);
+router.delete("/api/user/delete", deleteUser);
 
 export default router

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUserScore = exports.findUserByUsername = exports.findAllUsers = exports.createUser = void 0;
+exports.deleteUser = exports.updateUserLevel = exports.findUserByUsername = exports.findAllUsers = exports.createUser = void 0;
 var UserService_1 = require("../service/UserService");
 function createUser(req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -46,7 +46,7 @@ function createUser(req, res) {
                 case 0:
                     username = req.body.username;
                     password = req.body.password;
-                    return [4 /*yield*/, (0, UserService_1.serviceCreateNewUser)(username, password)];
+                    return [4 /*yield*/, (0, UserService_1.s_createNewUser)(username, password)];
                 case 1:
                     createdUser = _a.sent();
                     res.json(createdUser);
@@ -58,42 +58,83 @@ function createUser(req, res) {
 exports.createUser = createUser;
 function findAllUsers(req, res) {
     return __awaiter(this, void 0, void 0, function () {
+        var users;
         return __generator(this, function (_a) {
-            res.json("You are viewing all users");
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, UserService_1.s_findAllUsers)()];
+                case 1:
+                    users = _a.sent();
+                    console.log(users);
+                    res.json(users);
+                    return [2 /*return*/];
+            }
         });
     });
 }
 exports.findAllUsers = findAllUsers;
 function findUserByUsername(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var username;
+        var username, user;
         return __generator(this, function (_a) {
-            username = req.params.username;
-            res.json("You have found your user ".concat(username));
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    username = req.params.username;
+                    return [4 /*yield*/, (0, UserService_1.s_findUserByUsername)(username)];
+                case 1:
+                    user = _a.sent();
+                    if (user == null) {
+                        res.json("No user with username [".concat(username, "] found"));
+                    }
+                    else {
+                        res.json(user);
+                    }
+                    return [2 /*return*/];
+            }
         });
     });
 }
 exports.findUserByUsername = findUserByUsername;
-function updateUserScore(req, res) {
+function updateUserLevel(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var score;
+        var username, level, success;
         return __generator(this, function (_a) {
-            score = req.params.score;
-            res.json("User score updated to ".concat(score, "!"));
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    username = req.body.username;
+                    level = req.body.level;
+                    return [4 /*yield*/, (0, UserService_1.s_updateUserLevel)(username, level)];
+                case 1:
+                    success = _a.sent();
+                    if (success) {
+                        res.json("User level updated to ".concat(level, "!"));
+                    }
+                    else {
+                        res.json("Error. Unable to update level");
+                    }
+                    return [2 /*return*/];
+            }
         });
     });
 }
-exports.updateUserScore = updateUserScore;
+exports.updateUserLevel = updateUserLevel;
 function deleteUser(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var username;
+        var username, deleted;
         return __generator(this, function (_a) {
-            username = req.params.username;
-            res.json("User with username \"".concat(username, "\" deleted"));
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    username = req.body.username;
+                    return [4 /*yield*/, (0, UserService_1.s_deleteUser)(username)];
+                case 1:
+                    deleted = _a.sent();
+                    if (deleted) {
+                        res.json("User with username \"".concat(username, "\" deleted"));
+                    }
+                    else {
+                        res.json("Unable to delete user. Please try again later.");
+                    }
+                    return [2 /*return*/];
+            }
         });
     });
 }
