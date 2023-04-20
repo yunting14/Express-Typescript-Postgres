@@ -20,6 +20,12 @@ export const r_findUserByUsername = async (username:string):Promise<User|null> =
     return user;
 }
 
+// find user by user_id
+export const r_findUserById = async(user_id:number):Promise<User|null> => {
+    let user = await dbManager.findOneBy(User, {user_id:user_id});
+    return user;
+}
+
 // update user score
 export const r_updateUserLevel = async (user:User, level:string):Promise<boolean> => {
     await dbManager.update(User, {username: user.username}, {level:level});

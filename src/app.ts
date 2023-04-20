@@ -16,5 +16,8 @@ app.listen(port, ()=>{
 app.use(bodyParser.json());
 app.use("/", router);
 
+// casl
+import { AbilityBuilder} from '@casl/ability'; // Ability is deprecated 
+
 
 

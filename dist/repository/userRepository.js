@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.r_changeUserStatusToDeleted = exports.r_updateUserLevel = exports.r_findUserByUsername = exports.r_findAllUsers = exports.r_saveUser = void 0;
+exports.r_changeUserStatusToDeleted = exports.r_updateUserLevel = exports.r_findUserById = exports.r_findUserByUsername = exports.r_findAllUsers = exports.r_saveUser = void 0;
 var User_1 = require("../entity/User");
 var ormconfig_1 = __importDefault(require("../ormconfig"));
 var dbManager = ormconfig_1.default.manager;
@@ -81,6 +81,19 @@ var r_findUserByUsername = function (username) { return __awaiter(void 0, void 0
     });
 }); };
 exports.r_findUserByUsername = r_findUserByUsername;
+// find user by user_id
+var r_findUserById = function (user_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, dbManager.findOneBy(User_1.User, { user_id: user_id })];
+            case 1:
+                user = _a.sent();
+                return [2 /*return*/, user];
+        }
+    });
+}); };
+exports.r_findUserById = r_findUserById;
 // update user score
 var r_updateUserLevel = function (user, level) { return __awaiter(void 0, void 0, void 0, function () {
     var updatedUser;

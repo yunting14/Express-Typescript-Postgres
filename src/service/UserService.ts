@@ -1,6 +1,6 @@
 import { findUserByUsername } from "../controller/userController";
 import { User } from "../entity/User";
-import { r_changeUserStatusToDeleted, r_findAllUsers, r_findUserByUsername, r_saveUser, r_updateUserLevel } from "../repository/UserRepository";
+import { r_changeUserStatusToDeleted, r_findAllUsers, r_findUserById, r_findUserByUsername, r_saveUser, r_updateUserLevel } from "../repository/UserRepository";
 
 export const s_createNewUser = (username:string, password:string):Promise<User> => {
     const newUser = new User();
@@ -21,6 +21,12 @@ export const s_findAllUsers = async ():Promise<User[]> => {
 // find user by username
 export const s_findUserByUsername = async (username:string):Promise<User|null> => {
     return await r_findUserByUsername(username);
+}
+
+// find user by user_id
+export const s_findUserById = async (user_id:number):Promise<User|null> => {
+    let user = await r_findUserById(user_id);
+    return user;
 }
 
 // update user score

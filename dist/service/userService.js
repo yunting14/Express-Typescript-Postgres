@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.s_deleteUser = exports.s_updateUserLevel = exports.s_findUserByUsername = exports.s_findAllUsers = exports.s_createNewUser = void 0;
+exports.s_deleteUser = exports.s_updateUserLevel = exports.s_findUserById = exports.s_findUserByUsername = exports.s_findAllUsers = exports.s_createNewUser = void 0;
 var User_1 = require("../entity/User");
 var UserRepository_1 = require("../repository/UserRepository");
 var s_createNewUser = function (username, password) {
@@ -72,6 +72,19 @@ var s_findUserByUsername = function (username) { return __awaiter(void 0, void 0
     });
 }); };
 exports.s_findUserByUsername = s_findUserByUsername;
+// find user by user_id
+var s_findUserById = function (user_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, UserRepository_1.r_findUserById)(user_id)];
+            case 1:
+                user = _a.sent();
+                return [2 /*return*/, user];
+        }
+    });
+}); };
+exports.s_findUserById = s_findUserById;
 // update user score
 var s_updateUserLevel = function (username, level) { return __awaiter(void 0, void 0, void 0, function () {
     var user, success;
