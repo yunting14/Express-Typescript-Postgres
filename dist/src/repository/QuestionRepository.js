@@ -35,52 +35,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.s_findMCQById = exports.s_findAllMCQs = exports.s_createNewMCQ = void 0;
+exports.r_findMCQById = exports.r_findAllMCQs = exports.r_saveNewMCQ = void 0;
 var MultipleChoiceQuestion_1 = require("../entity/MultipleChoiceQuestion");
-var QuestionRepository_1 = require("../repository/QuestionRepository");
-var s_createNewMCQ = function (question, optionA, optionB, optionC, optionD, answer, author) { return __awaiter(void 0, void 0, void 0, function () {
-    var newMCQ, createdQuestion;
+var ormconfig_1 = __importDefault(require("../ormconfig"));
+var dbManager = ormconfig_1.default.manager;
+var r_saveNewMCQ = function (mcq) { return __awaiter(void 0, void 0, void 0, function () {
+    var createdMCQ;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                newMCQ = new MultipleChoiceQuestion_1.MultipleChoiceQuestion();
-                newMCQ.question = question;
-                newMCQ.optionA = optionA;
-                newMCQ.optionB = optionB;
-                newMCQ.optionC = optionC;
-                newMCQ.optionD = optionD;
-                newMCQ.answer = answer;
-                newMCQ.author = author;
-                return [4 /*yield*/, (0, QuestionRepository_1.r_saveNewMCQ)(newMCQ)];
+            case 0: return [4 /*yield*/, dbManager.save(mcq)];
             case 1:
-                createdQuestion = _a.sent();
-                return [2 /*return*/, createdQuestion];
+                createdMCQ = _a.sent();
+                return [2 /*return*/, createdMCQ];
         }
     });
 }); };
-exports.s_createNewMCQ = s_createNewMCQ;
-var s_findAllMCQs = function () { return __awaiter(void 0, void 0, void 0, function () {
+exports.r_saveNewMCQ = r_saveNewMCQ;
+var r_findAllMCQs = function () { return __awaiter(void 0, void 0, void 0, function () {
     var mcqs;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, QuestionRepository_1.r_findAllMCQs)()];
+            case 0: return [4 /*yield*/, dbManager.getRepository(MultipleChoiceQuestion_1.MultipleChoiceQuestion).find({
+                    relations: {
+                        author: true
+                    }
+                })];
             case 1:
                 mcqs = _a.sent();
                 return [2 /*return*/, mcqs];
         }
     });
 }); };
-exports.s_findAllMCQs = s_findAllMCQs;
-var s_findMCQById = function (mcq_id) { return __awaiter(void 0, void 0, void 0, function () {
+exports.r_findAllMCQs = r_findAllMCQs;
+var r_findMCQById = function (mcq_id) { return __awaiter(void 0, void 0, void 0, function () {
     var mcq;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, QuestionRepository_1.r_findMCQById)(mcq_id)];
+            case 0: return [4 /*yield*/, dbManager.getRepository(MultipleChoiceQuestion_1.MultipleChoiceQuestion).findOneBy({
+                    mcq_id: mcq_id
+                })];
             case 1:
                 mcq = _a.sent();
                 return [2 /*return*/, mcq];
         }
     });
 }); };
-exports.s_findMCQById = s_findMCQById;
+exports.r_findMCQById = r_findMCQById;

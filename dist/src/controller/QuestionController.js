@@ -39,8 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findMCQById = exports.findAllMCQs = exports.createMCQ = void 0;
 var UserService_1 = require("../service/UserService");
 var QuestionService_1 = require("../service/QuestionService");
-var appAbility_1 = require("../ability/appAbility");
-var ability_1 = require("@casl/ability");
 // create questions
 /* body
 {
@@ -103,7 +101,7 @@ var findAllMCQs = function (req, res) { return __awaiter(void 0, void 0, void 0,
 exports.findAllMCQs = findAllMCQs;
 // find questions by id 
 var findMCQById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var mcq_id, user_id, user, ability, mcq;
+    var mcq_id, user_id, user, mcq;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -113,24 +111,10 @@ var findMCQById = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 1:
                 user = _a.sent();
                 if (!user) return [3 /*break*/, 3];
-                ability = (0, appAbility_1.defineAbility)(user);
                 return [4 /*yield*/, (0, QuestionService_1.s_findMCQById)(mcq_id)];
             case 2:
                 mcq = _a.sent();
-                if (mcq) {
-                    try {
-                        ability_1.ForbiddenError.from(ability).setMessage("You can only view questions you created.").throwUnlessCan("read", mcq);
-                        res.json(JSON.stringify(mcq));
-                    }
-                    catch (ForbiddenError) {
-                        console.log(ForbiddenError);
-                        // res.json(ForbiddenError);
-                        res.json("You can only view questions you created.");
-                    }
-                }
-                else {
-                    res.json("No MCQs found for user with id [".concat(user_id, "}]"));
-                }
+                mcq ? res.json(JSON.stringify(mcq)) : res.json("No MCQs found for user with id [".concat(user_id, "}]"));
                 return [3 /*break*/, 4];
             case 3:
                 res.json("No user found for id [".concat(user_id, "]"));

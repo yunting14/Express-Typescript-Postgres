@@ -20,3 +20,12 @@ export const r_findAllMCQs = async():Promise<MultipleChoiceQuestion[]> => {
     
     return mcqs;
 }
+
+export const r_findMCQById = async(mcq_id:number):Promise<MultipleChoiceQuestion|null> => {
+    let mcq = await dbManager.getRepository(MultipleChoiceQuestion).findOne({
+        where:{mcq_id : mcq_id},
+        relations:{author:true}
+    })
+
+    return mcq;
+}

@@ -1,6 +1,6 @@
 import { MultipleChoiceQuestion } from "../entity/MultipleChoiceQuestion";
 import { User } from "../entity/User";
-import { r_findAllMCQs, r_saveNewMCQ } from "../repository/QuestionRepository";
+import { r_findAllMCQs, r_findMCQById, r_saveNewMCQ } from "../repository/QuestionRepository";
 
 export const s_createNewMCQ = async (
     question:string,
@@ -27,4 +27,9 @@ export const s_createNewMCQ = async (
 export const s_findAllMCQs = async ():Promise<MultipleChoiceQuestion[]> => {
     let mcqs = await r_findAllMCQs();
     return mcqs;
+}
+
+export const s_findMCQById = async (mcq_id:number):Promise<MultipleChoiceQuestion|null> => {
+    let mcq = await r_findMCQById(mcq_id);
+    return mcq;
 }
