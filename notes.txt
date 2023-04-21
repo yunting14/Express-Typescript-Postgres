@@ -21,9 +21,25 @@ router.delete("/api/user/delete", deleteUser);
 
 // question
 router.post("/api/question/create", createMCQ);
+
+{
+    "question":"Which of the following is an incorrect fact about the three-body problem?",
+    "optionA": "Isaac Newton was the scientist that made significant progress in this problem.",
+    "optionB": "A restricted three-body problem means that one of the three bodies has negligble mass",
+    "optionC": "Through the three-/N-body problem, it is theorized the solar system is unstable.",
+    "optionD": "We are able to predict the positions of the three bodies in gravitational motion given time t",
+    "answer": "D",
+    "author": 1
+}
+
 router.get("/api/question/all", findAllMCQs);
 router.get("/api/question/find", findMCQById);
 {
     "mcq_id":1,
     "user_id":1
+}
+
+router.delete("/api/question/delete", deleteMCQById);
+{
+    "mcq_id":1
 }

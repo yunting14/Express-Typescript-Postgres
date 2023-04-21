@@ -1,23 +1,12 @@
 import { Request, Response } from "express";
 import { s_findUserById } from "../service/UserService";
 import { User } from "../entity/User";
-import { s_createNewMCQ, s_findAllMCQs, s_findMCQById } from "../service/QuestionService";
+import { s_createNewMCQ, s_deleteMCQById, s_findAllMCQs, s_findMCQById } from "../service/QuestionService";
 import { MultipleChoiceQuestion } from "../entity/MultipleChoiceQuestion";
-import { defineAbility } from "../ability/appAbility";
+import { Action, defineMCQAbility } from "../ability/appAbility";
 import { ForbiddenError, subject } from "@casl/ability"
 
 // create questions
-/* body
-{
-    "question":"Which of the following is an incorrect fact about the three-body problem?",
-    "optionA": "Isaac Newton was the scientist that made significant progress in this problem.",
-    "optionB": "A restricted three-body problem means that one of the three bodies has negligble mass",
-    "optionC": "Through the three-/N-body problem, it is theorized the solar system is unstable.",
-    "optionD": "We are able to predict the positions of the three bodies in gravitational motion given time t",
-    "answer": "D",
-    "author": 1
-}
-*/
 export const createMCQ = async (req:Request, res:Response) => {
     let question = req.body.question;
     let optionA = req.body.optionA;
@@ -25,7 +14,7 @@ export const createMCQ = async (req:Request, res:Response) => {
     let optionC = req.body.optionC;
     let optionD = req.body.optionD;
     let answer = req.body.answer; // A, B, C, D
-    let user_id:number = req.body.author;
+    let user_id:number = req.body.author; // get via session or some authentication lib (req.user)
 
     let author:User|null = await s_findUserById(user_id);
     if (author) {
@@ -55,12 +44,12 @@ export const findMCQById = async (req:Request, res:Response) => {
     let user = await s_findUserById(user_id);
 
     if (user){
-        let ability = defineAbility(user);
+        let ability = defineMCQAbility(user);
         let mcq = await s_findMCQById(mcq_id);
 
         if (mcq){
             try {
-                ForbiddenError.from(ability).setMessage("You can only view questions you created.").throwUnlessCan("read", mcq);
+                ForbiddenError.from(ability).setMessage("You can only view questions you created.").throwUnlessCan(Action.Read, mcq);
                 res.json(mcq);
             } catch (ForbiddenError) {
                 console.log(ForbiddenError);
@@ -73,4 +62,25 @@ export const findMCQById = async (req:Request, res:Response) => {
     }else{
         res.json(`No user found for id [${user_id}]`);
     }
+}
+
+// delete question
+export const deleteMCQById = async (req:Request, res:Response) =>{
+    let mcq_id = req.body.mcq_id;
+
+    // req.user or get from session
+    let user = await s_findUserById(1);
+    if (user){
+        let ability = defineMCQAbility(user);
+        let hasAbility:boolean = ability.can(Action.Delete, MultipleChoiceQuestion);
+        
+        if (!hasAbility){
+            res.json("You cannot delete questions");
+            return;
+        }
+        await s_deleteMCQById(mcq_id);
+    }else{
+        res.json("User does not exist.");
+    }
+    
 }

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.s_findMCQById = exports.s_findAllMCQs = exports.s_createNewMCQ = void 0;
+exports.s_deleteMCQById = exports.s_findMCQById = exports.s_findAllMCQs = exports.s_createNewMCQ = void 0;
 var MultipleChoiceQuestion_1 = require("../entity/MultipleChoiceQuestion");
 var QuestionRepository_1 = require("../repository/QuestionRepository");
 var s_createNewMCQ = function (question, optionA, optionB, optionC, optionD, answer, author) { return __awaiter(void 0, void 0, void 0, function () {
@@ -84,3 +84,15 @@ var s_findMCQById = function (mcq_id) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.s_findMCQById = s_findMCQById;
+var s_deleteMCQById = function (mcq_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var deleted;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, QuestionRepository_1.r_deleteMCQById)(mcq_id)];
+            case 1:
+                deleted = _a.sent();
+                return [2 /*return*/, deleted];
+        }
+    });
+}); };
+exports.s_deleteMCQById = s_deleteMCQById;

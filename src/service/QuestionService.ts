@@ -1,6 +1,6 @@
 import { MultipleChoiceQuestion } from "../entity/MultipleChoiceQuestion";
 import { User } from "../entity/User";
-import { r_findAllMCQs, r_findMCQById, r_saveNewMCQ } from "../repository/QuestionRepository";
+import { r_deleteMCQById, r_findAllMCQs, r_findMCQById, r_saveNewMCQ } from "../repository/QuestionRepository";
 
 export const s_createNewMCQ = async (
     question:string,
@@ -32,4 +32,9 @@ export const s_findAllMCQs = async ():Promise<MultipleChoiceQuestion[]> => {
 export const s_findMCQById = async (mcq_id:number):Promise<MultipleChoiceQuestion|null> => {
     let mcq = await r_findMCQById(mcq_id);
     return mcq;
+}
+
+export const s_deleteMCQById = async (mcq_id:number):Promise<boolean> => {
+    let deleted:boolean = await r_deleteMCQById(mcq_id);
+    return deleted;
 }

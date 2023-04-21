@@ -20,4 +20,5 @@ router.delete("/api/user/delete", userController_1.deleteUser);
 router.post("/api/question/create", QuestionController_1.createMCQ);
 router.get("/api/question/all", QuestionController_1.findAllMCQs);
 router.get("/api/question/find", QuestionController_1.findMCQById);
+router.delete("/api/question/delete", QuestionController_1.deleteMCQById);
 exports.default = router;

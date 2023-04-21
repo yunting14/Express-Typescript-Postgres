@@ -36,23 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findMCQById = exports.findAllMCQs = exports.createMCQ = void 0;
+exports.deleteMCQById = exports.findMCQById = exports.findAllMCQs = exports.createMCQ = void 0;
 var UserService_1 = require("../service/UserService");
 var QuestionService_1 = require("../service/QuestionService");
+var MultipleChoiceQuestion_1 = require("../entity/MultipleChoiceQuestion");
 var appAbility_1 = require("../ability/appAbility");
 var ability_1 = require("@casl/ability");
 // create questions
-/* body
-{
-    "question":"Which of the following is an incorrect fact about the three-body problem?",
-    "optionA": "Isaac Newton was the scientist that made significant progress in this problem.",
-    "optionB": "A restricted three-body problem means that one of the three bodies has negligble mass",
-    "optionC": "Through the three-/N-body problem, it is theorized the solar system is unstable.",
-    "optionD": "We are able to predict the positions of the three bodies in gravitational motion given time t",
-    "answer": "D",
-    "author": 1
-}
-*/
 var createMCQ = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var question, optionA, optionB, optionC, optionD, answer, user_id, author, createdMCQ;
     return __generator(this, function (_a) {
@@ -113,13 +103,13 @@ var findMCQById = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 1:
                 user = _a.sent();
                 if (!user) return [3 /*break*/, 3];
-                ability = (0, appAbility_1.defineAbility)(user);
+                ability = (0, appAbility_1.defineMCQAbility)(user);
                 return [4 /*yield*/, (0, QuestionService_1.s_findMCQById)(mcq_id)];
             case 2:
                 mcq = _a.sent();
                 if (mcq) {
                     try {
-                        ability_1.ForbiddenError.from(ability).setMessage("You can only view questions you created.").throwUnlessCan("read", mcq);
+                        ability_1.ForbiddenError.from(ability).setMessage("You can only view questions you created.").throwUnlessCan(appAbility_1.Action.Read, mcq);
                         res.json(mcq);
                     }
                     catch (ForbiddenError) {
@@ -140,3 +130,33 @@ var findMCQById = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.findMCQById = findMCQById;
+// delete question
+var deleteMCQById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var mcq_id, user, ability, hasAbility;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                mcq_id = req.body.mcq_id;
+                return [4 /*yield*/, (0, UserService_1.s_findUserById)(1)];
+            case 1:
+                user = _a.sent();
+                if (!user) return [3 /*break*/, 3];
+                ability = (0, appAbility_1.defineMCQAbility)(user);
+                hasAbility = ability.can(appAbility_1.Action.Delete, MultipleChoiceQuestion_1.MultipleChoiceQuestion);
+                console.log("type of isAllowed", typeof hasAbility);
+                if (!hasAbility) {
+                    res.json("You cannot delete questions");
+                    return [2 /*return*/];
+                }
+                return [4 /*yield*/, (0, QuestionService_1.s_deleteMCQById)(mcq_id)];
+            case 2:
+                _a.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                res.json("User does not exist.");
+                _a.label = 4;
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.deleteMCQById = deleteMCQById;

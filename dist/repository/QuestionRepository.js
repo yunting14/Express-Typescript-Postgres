@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.r_findMCQById = exports.r_findAllMCQs = exports.r_saveNewMCQ = void 0;
+exports.r_deleteMCQById = exports.r_findMCQById = exports.r_findAllMCQs = exports.r_saveNewMCQ = void 0;
 var MultipleChoiceQuestion_1 = require("../entity/MultipleChoiceQuestion");
 var ormconfig_1 = __importDefault(require("../ormconfig"));
 var dbManager = ormconfig_1.default.manager;
@@ -86,3 +86,24 @@ var r_findMCQById = function (mcq_id) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.r_findMCQById = r_findMCQById;
+var r_deleteMCQById = function (mcq_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var mcq;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, dbManager.delete(MultipleChoiceQuestion_1.MultipleChoiceQuestion, { mcq_id: mcq_id })];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, (0, exports.r_findMCQById)(mcq_id)];
+            case 2:
+                mcq = _a.sent();
+                if (mcq) {
+                    return [2 /*return*/, false];
+                }
+                else {
+                    return [2 /*return*/, true];
+                }
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.r_deleteMCQById = r_deleteMCQById;

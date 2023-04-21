@@ -29,3 +29,13 @@ export const r_findMCQById = async(mcq_id:number):Promise<MultipleChoiceQuestion
 
     return mcq;
 }
+
+export const r_deleteMCQById = async (mcq_id:number):Promise<boolean> => {
+    await dbManager.delete(MultipleChoiceQuestion, { mcq_id: mcq_id });
+    let mcq = await r_findMCQById(mcq_id);
+    if (mcq){
+        return false;
+    }else{
+        return true;
+    }
+}
