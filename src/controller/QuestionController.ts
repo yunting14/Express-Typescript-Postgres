@@ -51,7 +51,7 @@ export const findAllMCQs = async (req:Request, res:Response) => {
 // find questions by id 
 export const findMCQById = async (req:Request, res:Response) => {
     let mcq_id = req.body.mcq_id;
-    let user_id = req.body.user_id;
+    let user_id = req.body.user_id; 
     let user = await s_findUserById(user_id);
 
     if (user){
@@ -61,7 +61,7 @@ export const findMCQById = async (req:Request, res:Response) => {
         if (mcq){
             try {
                 ForbiddenError.from(ability).setMessage("You can only view questions you created.").throwUnlessCan("read", mcq);
-                res.json(JSON.stringify(mcq));
+                res.json(mcq);
             } catch (ForbiddenError) {
                 console.log(ForbiddenError);
                 // res.json(ForbiddenError);
@@ -70,9 +70,6 @@ export const findMCQById = async (req:Request, res:Response) => {
         }else{
             res.json(`No MCQs found for user with id [${user_id}}]`);
         }
-        
-
-        // mcq ? res.json(JSON.stringify(mcq)) : res.json(`No MCQs found for user with id [${user_id}}]`);
     }else{
         res.json(`No user found for id [${user_id}]`);
     }

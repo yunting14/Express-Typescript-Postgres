@@ -1,0 +1,29 @@
+// user
+router.post("/api/signup", createUser);
+{
+    "username":"lucy",
+    "password":"password"
+}
+
+router.get("/api/user/all", findAllUsers);
+router.get("/api/user/:username", findUserByUsername);
+router.put("/api/user/updateLevel", updateUserLevel);
+{
+    "username":"lucy",
+    "level":"Intermediate"
+}
+
+router.delete("/api/user/delete", deleteUser);
+{
+    "username":"lucy"
+}
+
+
+// question
+router.post("/api/question/create", createMCQ);
+router.get("/api/question/all", findAllMCQs);
+router.get("/api/question/find", findMCQById);
+{
+    "mcq_id":1,
+    "user_id":1
+}

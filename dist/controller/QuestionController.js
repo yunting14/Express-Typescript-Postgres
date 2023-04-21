@@ -120,7 +120,7 @@ var findMCQById = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 if (mcq) {
                     try {
                         ability_1.ForbiddenError.from(ability).setMessage("You can only view questions you created.").throwUnlessCan("read", mcq);
-                        res.json(JSON.stringify(mcq));
+                        res.json(mcq);
                     }
                     catch (ForbiddenError) {
                         console.log(ForbiddenError);

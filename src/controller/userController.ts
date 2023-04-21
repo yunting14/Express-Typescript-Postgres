@@ -47,6 +47,5 @@ export async function deleteUser(req:Request, res:Response){
     }else{
         res.json("Unable to delete user. Please try again later.")
     }
-    
 
 }
