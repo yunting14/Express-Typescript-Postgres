@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn
 import { Quiz } from "./Quiz";
 import { User } from "./User";
 
-@Entity()
+@Entity("mcq")
 export class MultipleChoiceQuestion {
     @PrimaryGeneratedColumn()
     mcq_id : number

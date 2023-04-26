@@ -143,7 +143,6 @@ var deleteMCQById = function (req, res) { return __awaiter(void 0, void 0, void 
                 if (!user) return [3 /*break*/, 3];
                 ability = (0, appAbility_1.defineMCQAbility)(user);
                 hasAbility = ability.can(appAbility_1.Action.Delete, MultipleChoiceQuestion_1.MultipleChoiceQuestion);
-                console.log("type of isAllowed", typeof hasAbility);
                 if (!hasAbility) {
                     res.json("You cannot delete questions");
                     return [2 /*return*/];

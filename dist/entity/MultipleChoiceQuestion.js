@@ -54,7 +54,7 @@ var MultipleChoiceQuestion = exports.MultipleChoiceQuestion = /** @class */ (fun
         __metadata("design:type", Quiz_1.Quiz)
     ], MultipleChoiceQuestion.prototype, "quiz", void 0);
     MultipleChoiceQuestion = __decorate([
-        (0, typeorm_1.Entity)()
+        (0, typeorm_1.Entity)("mcq")
     ], MultipleChoiceQuestion);
     return MultipleChoiceQuestion;
 }());

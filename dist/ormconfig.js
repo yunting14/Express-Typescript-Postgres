@@ -11,12 +11,13 @@ var AppDataSource = new typeorm_1.DataSource({
     synchronize: true,
     logging: false,
     entities: [__dirname + "/entity/**/*.{js,ts}"],
-    migrations: [],
+    migrations: [__dirname + "/migration/**/*.{js,ts}"],
     subscribers: [],
 });
 AppDataSource.initialize()
     .then(function () {
     console.log("Data Source Initialised");
+    // AppDataSource.manager.getRepository("User").save(UserSeed);
 })
     .catch(function (error) {
     console.log("Data source initialisation error");
